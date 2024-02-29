@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Add this line to install react-dom
-RUN npm install react-dom
+RUN npm install react-dom/client.
 
 # Copy the rest of the application code
 COPY . .
