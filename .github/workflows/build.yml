@@ -20,16 +20,6 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       - name: NPM Install
         run: npm install
-        
-      - name: Docker build and push
-        run: |
-          # Run commands to build and push Docker images
-          docker build -t swiggy-clone .
-          docker tag swiggy-clone aakibkhan1212/swiggy-clone:latest
-          docker login -u ${{ secrets.Dockerhub_username }} -p ${{ secrets.Dockerhub_token }}
-          docker push aakibkhan1212/swiggy-clone:latest
-        env:
-          DOCKER_CLI_ACI: 1
       - name: Push changes to another repository
       env:
         PAT: ${{ secrets.Git_token }} # You need to add this secret to your repository
@@ -39,3 +29,13 @@ jobs:
         git add .
         git commit -m "Automated build"
         git push https://$GITHUB_ACTOR:${{ secrets.PAT }}@github.com/Aakibgithuber/deployment-using-github-actions.git HEAD:master
+ 
+      - name: Docker build and push
+        run: |
+          # Run commands to build and push Docker images
+          docker build -t swiggy-clone .
+          docker tag swiggy-clone aakibkhan1212/swiggy-clone:latest
+          docker login -u ${{ secrets.Dockerhub_username }} -p ${{ secrets.Dockerhub_token }}
+          docker push aakibkhan1212/swiggy-clone:latest
+        env:
+          DOCKER_CLI_ACI: 1
