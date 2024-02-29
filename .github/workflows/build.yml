@@ -20,22 +20,23 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       - name: NPM Install
         run: npm install
+      # Use the personal access token to access repositories
       - name: Push changes to another repository
-      env:
-        PAT: ${{ secrets.Git_token }} # You need to add this secret to your repository
-      run: |
-        git config --global user.email "actions@github.com"
-        git config --global user.name "GitHub Actions"
-        git add .
-        git commit -m "Automated build"
-        git push https://$GITHUB_ACTOR:${{ secrets.PAT }}@github.com/Aakibgithuber/deployment-using-github-actions.git HEAD:master
+        env:
+          PAT: ${{ secrets.GIT_TOKEN }} # You need to add this secret to your repository
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add .
+          git commit -m "Automated build"
+          git push https://$GITHUB_ACTOR:${{ secrets.PAT }}@github.com/Aakibgithuber/deployment-using-github-actions.git HEAD:master  
  
       - name: Docker build and push
         run: |
           # Run commands to build and push Docker images
           docker build -t swiggy-clone .
           docker tag swiggy-clone aakibkhan1212/swiggy-clone:latest
-          docker login -u ${{ secrets.Dockerhub_username }} -p ${{ secrets.Dockerhub_token }}
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
           docker push aakibkhan1212/swiggy-clone:latest
         env:
           DOCKER_CLI_ACI: 1
