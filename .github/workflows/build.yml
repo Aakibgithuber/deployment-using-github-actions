@@ -1,4 +1,4 @@
-name: Build,Analyze,scan
+name: Build
 
 on:
   push:
@@ -6,9 +6,9 @@ on:
       - master
 
 jobs:
-  build-analyze-scan:
+  build:
     name: Build
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -18,19 +18,19 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       - name: NPM Install
-        run: npm install  
- 
+        run: npm install
+        
       - name: Docker build and push
         run: |
           # Run commands to build and push Docker images
           docker build -t swiggy-clone .
           docker tag swiggy-clone aakibkhan1212/swiggy-clone:latest
-          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+          docker login -u ${{ secrets.Dockerhub_username }} -p ${{ secrets.Dockerhub_token }}
           docker push aakibkhan1212/swiggy-clone:latest
         env:
           DOCKER_CLI_ACI: 1
   deploy:
-   needs: build-analyze-scan
+   needs: build
    runs-on: [self-hosted]
    steps:
       - name: docker pull image
