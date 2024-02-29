@@ -19,17 +19,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       - name: NPM Install
-        run: npm install
-      # Use the personal access token to access repositories
-      - name: Push changes to another repository
-        env:
-          PAT: ${{ secrets.GIT_TOKEN }} # You need to add this secret to your repository
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git add .
-          git commit -m "Automated build"
-          git push https://$GITHUB_ACTOR:${{ secrets.PAT }}@github.com/Aakibgithuber/deployment-using-github-actions.git HEAD:master  
+        run: npm install  
  
       - name: Docker build and push
         run: |
