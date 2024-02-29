@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Add this line to install react-dom
+RUN npm install react-dom
+
 # Copy the rest of the application code
 COPY . .
 
